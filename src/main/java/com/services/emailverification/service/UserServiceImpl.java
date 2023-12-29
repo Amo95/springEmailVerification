@@ -55,6 +55,19 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void verify(String email, String otp) {
+        Users user = usersRepository.findByEmail(email);
+        if(user == null){
+            throw new RuntimeException("user does not exist!");
+        } else if(user.isVerified()) {
+            throw new RuntimeException("user already exists!");
+        } else if(otp.equals(user.getOtp())) {
+            user.setVerified(true);
+            usersRepository.save(user);
+        }
+    }
+
     private AllUserResponses mapAllUserResponse(Users user) {
         return AllUserResponses.builder()
                 .userId(user.getUserId())

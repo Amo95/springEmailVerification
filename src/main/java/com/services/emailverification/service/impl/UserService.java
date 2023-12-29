@@ -11,4 +11,6 @@ public interface UserService {
     RegisterResponse register(RegisterRequest request);
 
     List<AllUserResponses> getAllUsers();
+
+    void verify(String email, String otp);
 }
